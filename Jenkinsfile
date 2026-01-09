@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'agent-vikram'
+    }
 
     tools {
         maven 'Maven-3.9.6'
@@ -24,34 +26,44 @@ pipeline {
 
         stage('Maven Build') {
             steps {
-                bat 'mvn clean package -DskipTests'
+                sh '''
+                mvn -version
+                mvn clean package -DskipTests
+                '''
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat "docker build -t %IMAGE_NAME%:%BUILD_NUMBER% ."
+                sh '''
+                docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .
+                '''
             }
         }
 
         stage('Deploy Multiple Containers') {
             steps {
-                bat """
-                FOR /L %%i IN (1,1,%CONTAINER_COUNT%) DO (
-                  docker rm -f %IMAGE_NAME%_%%i 2>nul
-                  docker run -d --name %IMAGE_NAME%_%%i -p 800%i:9090 %IMAGE_NAME%:%BUILD_NUMBER%
-                )
-                """
+                sh '''
+                docker rm -f $(docker ps -aq --filter "name=${IMAGE_NAME}_") 2>/dev/null || true
+
+                for i in $(seq 1 ${CONTAINER_COUNT})
+                do
+                  docker run -d \
+                    --name ${IMAGE_NAME}_$i \
+                    -p $((9000 + i)):9090 \
+                    ${IMAGE_NAME}:${BUILD_NUMBER}
+                done
+                '''
             }
         }
     }
 
     post {
         success {
-            echo "✅ Local Docker build & deployment successful"
+            echo "✅ Pipeline executed successfully on Ubuntu agent-vikram"
         }
         failure {
-            echo "❌ Pipeline failed"
+            echo "❌ Pipeline failed on agent-vikram"
         }
     }
 }
