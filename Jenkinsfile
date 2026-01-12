@@ -24,7 +24,7 @@ pipeline {
 
         stage('Maven Build') {
             steps {
-                bat '''
+                sh '''
                 mvn -version
                 mvn clean package -DskipTests
                 '''
@@ -33,7 +33,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat '''
+                sh '''
                 docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .
                 '''
             }
@@ -41,7 +41,7 @@ pipeline {
 
         stage('Deploy Multiple Containers') {
             steps {
-                bat '''
+                sh '''
                 docker rm -f $(docker ps -aq --filter "name=${IMAGE_NAME}_") 2>/dev/null || true
 
                 for i in $(seq 1 ${CONTAINER_COUNT})
