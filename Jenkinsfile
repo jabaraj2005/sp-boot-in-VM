@@ -33,6 +33,7 @@ pipeline {
         sh '''docker-compose up'''
         }
     }
+}
 
 
     post {
@@ -41,4 +42,7 @@ pipeline {
         }
         failure {
             echo "❌ Pipeline failed"
+}
+}
+}
 
