@@ -13,7 +13,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout Code') {
             steps {
                 checkout scm
@@ -29,11 +28,13 @@ pipeline {
             }
         }
 
-        stage('Build Docker compose yaml'){
-	steps{
-	sh '''docker-compose up'''
-	}
-    }
+        stage('Build Docker compose yaml') {
+            steps {
+                sh '''docker-compose up'''
+            }
+        }  // <-- Closing brace for Build Docker compose yaml stage
+
+    }  // <-- Closing brace for stages block
 
     post {
         success {
@@ -44,5 +45,3 @@ pipeline {
         }
     }
 }
-
-
