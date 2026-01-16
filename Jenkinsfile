@@ -30,6 +30,7 @@ pipeline {
 
         stage('Build Docker compose yaml'){
         steps{
+	sh''sudo apt update $$ sudo apt install docker-compose
         sh '''docker-compose up'''
         }
     }
