@@ -17,6 +17,7 @@ pipeline {
                 checkout scm
             }
         }
+}
 
         stage('Maven Build') {
             steps {
