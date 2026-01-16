@@ -17,7 +17,7 @@ pipeline {
                 checkout scm
             }
         }
-}
+
 
         stage('Maven Build') {
             steps {
@@ -29,10 +29,11 @@ pipeline {
         }
 
         stage('Build Docker compose yaml'){
-	steps{
-	sh '''docker-compose up'''
-	}
+        steps{
+        sh '''docker-compose up'''
+        }
     }
+
 
     post {
         success {
@@ -40,8 +41,4 @@ pipeline {
         }
         failure {
             echo "❌ Pipeline failed"
-        }
-    }
-}
-
 
