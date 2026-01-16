@@ -1,0 +1,18 @@
+
+services:
+  springboot-app:
+    image: springboot-ci-cd:latest
+    container_name: springboot-ci-cd_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    restart: always
+    networks:
+      - springboot-network
+
+networks:
+  springboot-network:
+    driver: bridge
+
