@@ -40,6 +40,7 @@ withDockerRegistry(credentialsId: '82de6167-2da8-4fe2-b2b5-60f390be3a1b', url: '
 }
 }
 }
+}
 
 
     post {
