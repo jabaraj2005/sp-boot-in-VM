@@ -25,7 +25,7 @@ pipeline {
 
         stage('Build Docker compose yaml'){
         steps{
-	sh'''docker compose down '''
+	sh'''docker-compose down '''
 	sh'''do0cker system prune -f'''
         sh '''docker-compose up -d --build'''
         }
