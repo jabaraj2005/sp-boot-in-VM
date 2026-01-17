@@ -30,6 +30,15 @@ pipeline {
         sh '''docker-compose up -d --build'''
         }
     }
+	stage('Docker push'){
+	steps{
+	script{
+withDockerRegistry(credentialsId: '82de6167-2da8-4fe2-b2b5-60f390be3a1b', url: 'https://index.docker.io/v1/') {
+	sh ''' docker push jabaraj2005/jenkins '''
+    
+}
+}
+}
 }
 
 

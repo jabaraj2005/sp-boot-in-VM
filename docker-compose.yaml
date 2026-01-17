@@ -1,7 +1,7 @@
 
 services:
   springboot-app:
-    image: springboot-ci-cd:latest
+    image: jabaraj2005/jenkins:latest
     build:
       context: .
       dockerfile: Dockerfile
