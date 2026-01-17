@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME      = "springboot-ci-cd"
-        CONTAINER_COUNT = 1
-    }
-
     triggers {
         githubPush()
     }
@@ -30,9 +25,9 @@ pipeline {
 
         stage('Build Docker compose yaml'){
         steps{
-	sh'''sudo apt update'''
-	sh'''sudo apt install docker-compose -y'''
-        sh '''docker-compose up'''
+	sh'''docker compose down --volumes --remove-orphans || true'''
+	sh'''do0cker system prune -f'''
+        sh '''docker-compose up -d --build'''
         }
     }
 }
@@ -40,10 +35,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ Pipeline executed successfully"
+            echo "Pipeline executed successfully"
         }
         failure {
-            echo "❌ Pipeline failed"
+            echo "Pipeline failed"
 }
 }
 }
